@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     fun onDigit(view: View) {
      findViewById<TextView>(R.id.tvInput)?.append((view as Button).text)
         lastNumeric = true
-     }
+    }
 
     fun onClear(view: View) {
         findViewById<TextView>(R.id.tvInput).text = ""
@@ -32,6 +32,23 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvInput).append(".")
             lastNumeric = false
             lastDot = true
+        }
+    }
+
+    fun onOperator(view: View) {
+        if (lastNumeric && !isOperatorAdded(findViewById<TextView>(R.id.tvInput).text.toString())) {
+            findViewById<TextView>(R.id.tvInput).append((view as Button).text)
+            lastNumeric = false
+            lastDot = false
+        }
+    }
+
+    private fun isOperatorAdded(value: String) : Boolean {
+        return if (value.startsWith("-")) {
+            false
+        } else {
+            value.contains("/") || value.contains("*")
+                    || value.contains("+") || value.contains("-")
         }
     }
 }
