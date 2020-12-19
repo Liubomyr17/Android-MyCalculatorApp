@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                     prefix = "-"
                     tvValue = tvValue.substring(1)
                 }
+
                 if(tvValue.contains("-")) {
                     val splitValue = tvValue.split("-")
                     var one = splitValue[0]
@@ -53,9 +54,41 @@ class MainActivity : AppCompatActivity() {
                     if(!prefix.isEmpty()) {
                         one = prefix + one
                     }
-
-                    findViewById<TextView>(R.id.tvInput).text = (one.toDouble() - two.toDouble()).toString()
+                    findViewById<TextView>(R.id.tvInput).text = removeZeroAfterDot((one.toDouble() - two.toDouble()).toString())
                 }
+                else if(tvValue.contains("*")) {
+                    val splitValue = tvValue.split("*")
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if(!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+                    findViewById<TextView>(R.id.tvInput).text = removeZeroAfterDot((one.toDouble() * two.toDouble()).toString())
+
+                }
+                else if(tvValue.contains("+")) {
+                    val splitValue = tvValue.split("+")
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if(!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+                    findViewById<TextView>(R.id.tvInput).text = removeZeroAfterDot((one.toDouble() + two.toDouble()).toString())
+
+                }
+                else if(tvValue.contains("/")) {
+                    val splitValue = tvValue.split("/")
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if(!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+                    findViewById<TextView>(R.id.tvInput).text = removeZeroAfterDot((one.toDouble() / two.toDouble()).toString())
+                }
+
             } catch (e: ArithmeticException) {
                 e.printStackTrace()
             }
@@ -68,6 +101,13 @@ class MainActivity : AppCompatActivity() {
             lastNumeric = false
             lastDot = false
         }
+    }
+
+    private fun removeZeroAfterDot(result: String) : String {
+        var value = result
+        if (result.contains(".0"))
+            value = result.substring(0, result.length - 2)
+        return value
     }
 
     private fun isOperatorAdded(value: String) : Boolean {
